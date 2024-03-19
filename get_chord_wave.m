@@ -29,21 +29,28 @@ function [ X ] = get_chord_wave( chord, duration, fs )
                      'Eb','m';
                      'G','m';
                      'Bb','m'};
+        case 'C5'
+            notes = {'C', 'm';
+                     'G', 'm'};
         case 'D'
             notes = {'D','m';
                      'Fs','m';
                      'A','m'};
-		             
+
         case 'D7' 
             notes = {'D','m';
                      'Fs','m'; 	
                      'A','m';
-		     'C','m'};
+		             'C','m'};
 		     
         case 'Dm'
             notes = {'D','m';
                      'F','m';
                      'A','m'};
+        case 'Db'
+            notes = {'Cs','m';
+                     'F','m';
+                     'Gs','m'};
         case 'E'
             notes = {'E','m';
                      'Gs','m';
@@ -51,15 +58,24 @@ function [ X ] = get_chord_wave( chord, duration, fs )
         case 'Em'
             notes = {'E','m';
                      'G','m';
-                     'B','m'}; 
+                     'B','m'};
+        case 'Eb'
+            notes = {'Eb','m';
+                     'G','m';
+                     'Bb','m'};
         case 'F'
             notes = {'F','m';
                      'A','m';
                      'C','m'};
         case 'Fm'
-            notes = {'F','m';
+            notes = {'C','m';
+                     'F','m';
                      'Ab','m';
-                     'C','m'};
+                     };
+        case 'F#m'
+            notes = {'Fs','m';
+                     'A','m';
+                     'Cs','m'};
         case 'G'
             notes = {'G','m';
                      'B','m';
@@ -76,6 +92,10 @@ function [ X ] = get_chord_wave( chord, duration, fs )
             notes = {'A','m';
                      'C','m';
                      'E','m'};
+        case 'Ab'
+            notes = {'C','m';
+                     'Eb','m';
+                     'Ab','m'};
         case 'B'
             notes = {'B','m';
                      'Ds','m';
@@ -86,19 +106,13 @@ function [ X ] = get_chord_wave( chord, duration, fs )
                      'Fs','m'}; 
     end
 
+    % Determine the number of notes in the chord
     I = size(notes);
     n = I(1); %n is the number of notes comprising the chord (usually 3)
     X = zeros(1, floor(duration*fs)); %initialize empty X to hold chord time signal
 
-    for i=1:n % This loop will add the wave for each note inside the chord
-        note = notes{i, 1};
-        oct = notes{i, 2};
-        num = get_num(note, oct); 
-        f = get_freq(num); 
-        T = 0:1/fs:duration-1/fs; % Time vector
-        noteWave = cos(2*pi*f*T - pi/2); % Generate note wave
-        X = X + noteWave; % Summing the note's signal into the chord's signal
+    for i=1:n %this loop will add the wave for each note inside the chord
+        X = X + get_wave(notes{i, 1}, notes{i, 2}, duration, fs);
     end
 
 end
-

@@ -13,7 +13,4 @@ semitone_mult = 2^(1/num_octave_keys); %frequency ratio of a semitone (two neigh
 semitone_jump = num - middle_A_num;  %how many semitones away from middle A our key is
 f = middle_A_freq * (semitone_mult^semitone_jump); %our key's frequency
 
-%frequency_of_key_9 = get_freq(9);
-
 end
-
